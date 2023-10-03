@@ -9,6 +9,20 @@ WIDTH, HEIGHT = 1600, 900
 key_dct = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)}
 
 
+def check_round(rect:pg.Rect):
+    """
+    画面外かどうかの判定
+    戻り値 タプル
+    """
+    yoko = True
+    tate = True
+    if rect.left < 0 or WIDTH < rect.right:
+        yoko = False
+    if rect.top < 0 or HEIGHT < rect.bottom:
+        tate = False
+    return yoko,tate
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -34,9 +48,10 @@ def main():
                 return
 
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, k_rect)
-        screen.blit(draw_c, c_rect)
         c_rect.move_ip(vx,vy)
+        yoko,tate = check_round(c_rect)
+        if not yoko: vx *= -1
+        if not tate: vy *= -1
         key_lst = pg.key.get_pressed()
         total_move = [0,0]
         for key, move in key_dct.items():
@@ -44,6 +59,10 @@ def main():
                 total_move[0] += move[0]
                 total_move[1] += move[1]
         k_rect.move_ip(total_move)
+        if check_round(k_rect) != (True,True):
+            k_rect.move_ip(-total_move[0],-total_move[1])
+        screen.blit(kk_img, k_rect)
+        screen.blit(draw_c, c_rect)
         pg.display.update()
         tmr += 1
         clock.tick(50)
