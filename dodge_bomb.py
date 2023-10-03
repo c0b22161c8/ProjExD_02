@@ -30,6 +30,7 @@ def main():
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
         screen.blit(draw_c, c_rect)
+        c_rect.move_ip(vx,vy)
         pg.display.update()
         tmr += 1
         clock.tick(50)
