@@ -14,8 +14,7 @@ def check_round(rect:pg.Rect):
     画面外かどうかの判定
     戻り値 タプル
     """
-    yoko = True
-    tate = True
+    yoko = tate = True
     if rect.left < 0 or WIDTH < rect.right:
         yoko = False
     if rect.top < 0 or HEIGHT < rect.bottom:
@@ -46,6 +45,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
+
+        if k_rect.colliderect(c_rect):
+            print("ゲームオーバー")
+            return
 
         screen.blit(bg_img, [0, 0])
         c_rect.move_ip(vx,vy)
