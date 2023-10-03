@@ -9,11 +9,13 @@ WIDTH, HEIGHT = 1600, 900
 key_dct = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)}
 accs = [a for a in range(1,11)]
 
-#bomb3
+
 def check_round(rect:pg.Rect):
     """
-    画面外かどうかの判定
+    画面外の判定
     戻り値 タプル
+    右か左に出ていたらyokoがFalse
+    上か下に出ていたらtateがFalse
     """
     yoko = tate = True
     if rect.left < 0 or WIDTH < rect.right:
@@ -26,22 +28,25 @@ def check_round(rect:pg.Rect):
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
+    """背景"""
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
+    """こうかとん"""
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img2 = pg.transform.flip(kk_img, True, False)
     kk_img3 = pg.image.load("ex02/fig/8.png")
     kk_img3 = pg.transform.rotozoom(kk_img3, 0, 2.0)
     kk_img_lst = {(-5,0):pg.transform.rotozoom(kk_img, 0, 2.0),
-                  (-5,-5):pg.transform.rotozoom(kk_img, 315, 2.0),
-                  (0,-5):pg.transform.rotozoom(kk_img2, 90, 2.0),
-                  (5,-5):pg.transform.rotozoom(kk_img2, 45, 2.0),
-                  (5,0):pg.transform.rotozoom(kk_img2, 0, 2.0),
-                  (5,5):pg.transform.rotozoom(kk_img2, 315, 2.0),
-                  (0,5):pg.transform.rotozoom(kk_img2, 270, 2.0),
-                  (-5,5):pg.transform.rotozoom(kk_img, 45, 2.0),
-                  (0,0):pg.transform.rotozoom(kk_img, 0, 2.0)}
+                    (-5,-5):pg.transform.rotozoom(kk_img, 315, 2.0),
+                    (0,-5):pg.transform.rotozoom(kk_img2, 90, 2.0),
+                    (5,-5):pg.transform.rotozoom(kk_img2, 45, 2.0),
+                    (5,0):pg.transform.rotozoom(kk_img2, 0, 2.0),
+                    (5,5):pg.transform.rotozoom(kk_img2, 315, 2.0),
+                    (0,5):pg.transform.rotozoom(kk_img2, 270, 2.0),
+                    (-5,5):pg.transform.rotozoom(kk_img, 45, 2.0),
+                    (0,0):pg.transform.rotozoom(kk_img, 0, 2.0)}
     k_rect = (kk_img.get_rect())
     k_rect.center=(900, 400)
+    """爆弾"""
     draw_c_lst = []
     for r in range(1,11):
         draw_c = pg.Surface((20*r, 20*r))
@@ -49,11 +54,11 @@ def main():
         draw_c.set_colorkey((0,0,0))
         draw_c_lst.append(draw_c)
         if r==1: c_rect = (draw_c.get_rect())
-    clock = pg.time.Clock()
-    tmr = 0
     x=randint(10, WIDTH)
     y=randint(10, HEIGHT)
     c_rect.center=(x,y)
+    clock = pg.time.Clock()
+    tmr = 0
     vx = vy = 5
 
     while True:
