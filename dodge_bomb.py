@@ -27,7 +27,16 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img2 = pg.transform.flip(kk_img, True, False)
+    kk_img_lst = {(-5,0):pg.transform.rotozoom(kk_img, 0, 2.0),
+                  (-5,-5):pg.transform.rotozoom(kk_img, 315, 2.0),
+                  (0,-5):pg.transform.rotozoom(kk_img2, 90, 2.0),
+                  (5,-5):pg.transform.rotozoom(kk_img2, 45, 2.0),
+                  (5,0):pg.transform.rotozoom(kk_img2, 0, 2.0),
+                  (5,5):pg.transform.rotozoom(kk_img2, 315, 2.0),
+                  (0,5):pg.transform.rotozoom(kk_img2, 270, 2.0),
+                  (-5,5):pg.transform.rotozoom(kk_img, 45, 2.0),
+                  (0,0):pg.transform.rotozoom(kk_img, 0, 2.0)}
     k_rect = (kk_img.get_rect())
     k_rect.center=(900, 400)
     draw_c = pg.Surface((20, 20))
@@ -64,7 +73,7 @@ def main():
         k_rect.move_ip(total_move)
         if check_round(k_rect) != (True,True):
             k_rect.move_ip(-total_move[0],-total_move[1])
-        screen.blit(kk_img, k_rect)
+        screen.blit(kk_img_lst[tuple(total_move)], k_rect)
         screen.blit(draw_c, c_rect)
         pg.display.update()
         tmr += 1
