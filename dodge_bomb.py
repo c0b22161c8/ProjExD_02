@@ -9,6 +9,7 @@ WIDTH, HEIGHT = 1600, 900
 key_dct = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)}
 accs = [a for a in range(1,11)]
 
+#bomb3
 def check_round(rect:pg.Rect):
     """
     画面外かどうかの判定
